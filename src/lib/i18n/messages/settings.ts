@@ -40,6 +40,8 @@ export const settings: NamespaceMessages = {
     providerSiliconflowTip: "国产高性价比推理平台",
     providerOpenaiDesc: "OpenAI 与兼容服务，支持图片编辑及 Sora 视频任务",
     providerOpenaiTip: "视频默认使用 /videos；兼容服务可将 Base URL 填为完整的 /v1/video/generations 地址。自建模型请在自定义模型中添加。",
+    providerComfyuiDesc: "本地 ComfyUI 推理服务，跑自己机器上的 Wan2.2 等开源权重",
+    providerComfyuiTip: "免 Key、免计费：Base URL 填 http://127.0.0.1:8188，API Key 随便填个非空值即可。单镜约 7 分钟起，请留足时间。",
 
     // AI 平台卡片
     providerEnabled: "已启用",
@@ -237,6 +239,8 @@ export const settings: NamespaceMessages = {
     providerSiliconflowTip: "Cost-effective domestic inference platform",
     providerOpenaiDesc: "OpenAI and compatible servers — image editing and Sora video tasks",
     providerOpenaiTip: "Video uses /videos by default. For legacy servers, set Base URL to the full /v1/video/generations endpoint. Add self-hosted models under Custom models.",
+    providerComfyuiDesc: "Local ComfyUI server running your own Wan2.2 weights",
+    providerComfyuiTip: "No key, no billing: set Base URL to http://127.0.0.1:8188 and put any non-empty value in API Key. Expect ~7 min per shot.",
 
     // AI platform card
     providerEnabled: "Enabled",

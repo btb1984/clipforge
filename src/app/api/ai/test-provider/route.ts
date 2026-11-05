@@ -18,6 +18,7 @@ const DEFAULT_BASE: Record<string, string> = {
   alibaba: "https://dashscope.aliyuncs.com/api/v1",
   siliconflow: "https://api.siliconflow.cn/v1",
   openai: "https://api.openai.com/v1",
+  comfyui: "http://127.0.0.1:8188",
 };
 
 type Probe = { url: string; headers: Record<string, string>; authFirst?: boolean; method?: "GET" | "POST"; body?: string };
@@ -25,6 +26,11 @@ type Probe = { url: string; headers: Record<string, string>; authFirst?: boolean
 function buildProbe(name: string, apiKey: string, baseUrl?: string): Probe {
   const rawBase = (baseUrl || DEFAULT_BASE[name] || "").replace(/\/+$/, "");
   const base = name === "openai" ? rawBase.replace(/\/(video\/generations|videos)$/, "") : rawBase;
+  if (name === "comfyui") {
+    // 本地 ComfyUI 无鉴权，也没有 /models 之类的目录端点：/system_stats 是唯一稳定的在线探针。
+    // 不带 Authorization —— 部分反代见到无法识别的 Bearer 会直接 401，把「服务在线」误判成「Key 无效」。
+    return { url: `${base}/system_stats`, headers: {} };
+  }
   if (name === "fal-ai") {
     // fal 先校验鉴权再解析 request id：到达 404/422 即说明 Key 有效
     return {
@@ -100,6 +106,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ status: "unknown", message: `无法判定（HTTP ${r.status}），可直接试生成` });
   } catch (e) {
     const aborted = e instanceof Error && e.name === "AbortError";
+    if (name === "comfyui") {
+      // 本地服务连不上几乎只有一个原因：ComfyUI 没启动 / 端口不对。
+      // 通用文案「网络异常，无法判定」会让人以为是 Key 问题，白折腾一轮。
+      return NextResponse.json({
+        status: "unknown",
+        message: aborted
+          ? `连接 ComfyUI 超时：确认服务在 ${baseUrl || DEFAULT_BASE.comfyui} 上已启动`
+          : `连不上 ComfyUI：确认服务已启动且地址正确（当前 ${baseUrl || DEFAULT_BASE.comfyui}）`,
+      });
+    }
     return NextResponse.json({ status: "unknown", message: aborted ? "超时，无法判定" : "网络异常，无法判定" });
   } finally {
     clearTimeout(timer);

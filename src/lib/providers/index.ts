@@ -11,6 +11,7 @@ import { ReplicateProvider } from './replicate'
 import { AlibabaProvider } from './alibaba'
 import { SiliconFlowProvider } from './siliconflow'
 import { OpenAIProvider } from './openai'
+import { ComfyUIProvider } from './comfyui'
 
 // ==================== Provider 注册表 ====================
 
@@ -73,6 +74,15 @@ registerProvider({
   displayName: 'OpenAI',
   description: 'OpenAI 与兼容服务，支持图片编辑及异步视频生成',
   factory: (config) => new OpenAIProvider(config),
+})
+
+// 本地/局域网 ComfyUI：无 API Key、无计费，跑的是用户自己机器上的 Wan2.2 等权重。
+// baseUrl 必须在设置页里填（默认 http://127.0.0.1:8188），否则会连到默认端口。
+registerProvider({
+  name: 'comfyui',
+  displayName: 'ComfyUI (本地)',
+  description: '本地 ComfyUI 推理服务，支持 Wan2.2 图生视频（需自行部署模型）',
+  factory: (config) => new ComfyUIProvider(config),
 })
 
 // ==================== 工厂函数 ====================
@@ -159,3 +169,4 @@ export { VolcEngineProvider } from './volcengine'
 export { AlibabaProvider } from './alibaba'
 export { SiliconFlowProvider } from './siliconflow'
 export { OpenAIProvider } from './openai'
+export { ComfyUIProvider } from './comfyui'

@@ -180,6 +180,8 @@ export const useSettingsStore = create<SettingsState>()(
         alibaba: { enabled: false, apiKey: "" },
         siliconflow: { enabled: false, apiKey: "" },
         openai: { enabled: false, apiKey: "" },
+        // 本地 ComfyUI：默认端口预填，用户只需打开开关（Key 仅用于满足非空校验）
+        comfyui: { enabled: false, apiKey: "local", baseUrl: "http://127.0.0.1:8188" },
       },
       llm: {
         provider: "",

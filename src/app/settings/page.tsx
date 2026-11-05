@@ -160,6 +160,24 @@ const AI_PROVIDERS = [
     ),
     iconBg: "from-teal-600 to-green-700",
   },
+  {
+    // 本地 ComfyUI：无 Key、无计费，跑用户自己机器上的开源权重（Wan2.2 等）。
+    // 注意 provider name 必须是 comfyui（与 src/lib/providers/index.ts 的注册名一致），
+    // 模型下拉里能出现什么，完全取决于该 provider 的 listModels 返回什么。
+    key: "comfyui",
+    name: "ComfyUI",
+    descKey: "providerComfyuiDesc",
+    tipKey: "providerComfyuiTip",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="9" width="6" height="6" rx="1.5" />
+        <rect x="16" y="2" width="6" height="6" rx="1.5" />
+        <rect x="16" y="16" width="6" height="6" rx="1.5" />
+        <path d="M8 12h4M12 12V5h4M12 12v7h4" />
+      </svg>
+    ),
+    iconBg: "from-fuchsia-500 to-purple-600",
+  },
 ];
 
 // Map Chinese vendor names by key to i18n display names (English users would otherwise see hard-coded Chinese like "火山引擎/阿里百炼/硅基流动").
